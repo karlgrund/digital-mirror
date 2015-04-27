@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to this digital mirror</title>
+    <link href='css/bootstrap.css' rel='stylesheet'>
+    <link href="css/clock.css" rel="stylesheet">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="js/css_clocks_1.js"></script>
+    <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+
+
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="col-md-3" id="cssclock">
+        <div id="clockanalog">
+            <img src="images/analogseconds.png" id="analogsecond"
+                 alt="Clock second-hand"/>
+            <img src="images/analogminutes.png"
+                 id="analogminute" alt="Clock minute-hand"/>
+            <img src="images/analoghours.png" id="analoghour"
+                 alt="Clock hour-hand"/>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div id="notification_message">
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</div>
+
+
+<script type="text/javascript">
+    // this strange block of code exists to make sure the clocks are started as soon as
+    // possible as the page loads, rather than always waiting for a
+    // $(document).ready() as I normally do...
+    var bScriptLoaded = false;
+    var bDOMLoaded = false;
+    var bClocksInitialised = false;
+
+    function ClockInit() {
+        if ((bClocksInitialised != true) && (bDOMLoaded == true) && (bScriptLoaded == true)) {
+            bClocksInitialised = true;
+            oClockAnalog.fInit();
+            oClockDigital.fInit();
+        }
+    }
+</script>
+<script>
+    var socket = io.connect('http://localhost:8080');
+    socket.on('notification', function(data) {
+        console.log("We got here! :)")
+        //var _data = JSON.parse(data);
+        console.log(data);
+        $('#notification_message').html(data.message);
+    });
+
+</script>
+</body>
+</html>
