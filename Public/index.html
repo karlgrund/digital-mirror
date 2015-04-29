@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to this digital mirror</title>
+    <link href='css/bootstrap.css' rel='stylesheet'>
+    <link href="css/clock.css" rel="stylesheet">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="js/css_clocks_1.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+
+
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="col-md-3" id="cssclock">
+        <div id="clockanalog">
+            <img src="images/analogseconds.png" id="analogsecond"
+                 alt="Clock second-hand"/>
+            <img src="images/analogminutes.png"
+                 id="analogminute" alt="Clock minute-hand"/>
+            <img src="images/analoghours.png" id="analoghour"
+                 alt="Clock hour-hand"/>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+
+    <div class="col-md-3" id="notification_message">
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</div>
+
+
+<script type="text/javascript">
+    var bScriptLoaded = false;
+    var bDOMLoaded = false;
+    var bClocksInitialised = false;
+
+    function ClockInit() {
+        if ((bClocksInitialised != true) && (bDOMLoaded == true) && (bScriptLoaded == true)) {
+            bClocksInitialised = true;
+            oClockAnalog.fInit();
+            oClockDigital.fInit();
+        }
+    }
+</script>
+<script>
+    var socket = io.connect('http://localhost:80');
+    socket.on('message', function(data) {
+        var notification = "";
+        for (var obj in data) {
+            var message = data[obj];
+            notification += "<p>" + message.user + ": " +  message.message + "</p>";
+        }
+        $('#notification_message').html(notification);
+    });
+
+</script>
+</body>
+</html>
