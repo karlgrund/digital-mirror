@@ -3,8 +3,9 @@ var db = require('../lib/database');
 /*
  * Get messages
  */
-exports.getLatest = function (callback) {
-    db.getMessages(function (err, messageList) {
+exports.getLatest = function (nbrOfMessages, callback) {
+    console.log("[MESSAGES] Getting latest messages");
+    db.getMessages(nbrOfMessages, function (err, messageList) {
         if(err) return callback(err, null);
         callback(null, messageList);
     })

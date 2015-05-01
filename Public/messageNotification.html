@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Message Center</title>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+</head>
+<body>
+    <h1>Add message to Message Center</h1>
+
+    <form>
+        <input name="Name" placeholder="Name">
+        <input name="Message" placeholder="Enter your message here">
+        <input type="Submit">
+    </form>
+
+
+    <script type="text/javascript">
+        $('form').on('submit', function(event) {
+            event.preventDefault();
+            var form = $(this);
+            var blockData = form.serialize();
+            console.log(blockData);
+            $.ajax({
+                type: 'POST', url: '/addMessage', data: blockData
+            }).done(function(blockName) {
+                form.trigger('reset');
+            });
+        });
+
+    </script>
+</body>
+</html>

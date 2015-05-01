@@ -51,8 +51,9 @@
     }
 </script>
 <script>
-    var socket = io.connect('http://localhost:80');
-    socket.on('message', function(data) {
+    var socket = io.connect('http://localhost:8000');
+    socket.on('messageCenter', function(data) {
+        console.log("DATA Recieved: " + data);
         var notification = "";
         for (var obj in data) {
             var message = data[obj];
