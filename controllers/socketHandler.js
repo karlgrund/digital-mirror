@@ -1,31 +1,39 @@
 var messages = require('../models/messages');
-var io = require('socket.io')(8000);
+var socket = require('socket.io');
+var logger = require('../lib/logger');
+var io;
 
-io.on('connection', function (socket) {
+var classname = "SOCKETHANDLER";
 
-    /*
-     * Send 3 latest messages to client.
-     */
+module.exports.listen = function (app) {
+    io = socket.listen(app);
+
+    io.on('connection', function (socket) {
+        console.log("[SOCKETHANDLER] Got a new client");
+
+        /*
+         * Send 3 latest messages to client.
+         */
+        messages.getLatest(3, function (err, messageList) {
+            logger.log(classname, "Sending messages to new client");
+            if (err) {
+                return err;
+            }
+            else {
+                socket.emit('messageCenter', messageList);
+            }
+        })
+    });
+};
+
+exports.updateAllUsers = function (reciever) {
+    logger.log(classname, "Uppdating all sockets with latest messages");
     messages.getLatest(3, function (err, messageList) {
         console.log("[SOCKETHANDLER] Sending 3 latest messages");
         if (err) {
-            console.log("[SOCKETHANDLER] ERROR: " + err);
             return err;
         } else {
-            console.log("[SOCKETHANDLER] Recieved messages with size: " + messageList.length);
-            socket.emit('messageCenter', messageList);
+            io.sockets.emit('messageCenter', messageList)
         }
-    });
-});
-
-
-/*
- * Update all sockets with new information
- */
-exports.updateSockets = function () {
-    console.log("[SOCKETHANDLER] Updating sockets with latest!");
-    messages.getLatest(function (err, data) {
-        if (err) return console.log(err);
-        io.sockets.emit('message', data);
     });
 };
