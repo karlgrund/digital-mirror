@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('public'));
 
-process.argv.forEach(function(val, index, array) {
+process.argv.forEach(function(val) {
     switch(val) {
         case "--verbose":
         case "-v":
@@ -28,7 +28,6 @@ process.argv.forEach(function(val, index, array) {
 });
 
 app.post('/addMessage', messages.add, io.updateAllUsers);
-
 
 server.listen(8080, function() {
     console.log('[SERVER] Server listening on localhost:8080');

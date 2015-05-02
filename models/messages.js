@@ -8,11 +8,10 @@ var classname = "MESSAGES";
 exports.getLatest = function (nbrOfMessages, callback) {
     console.log("[MESSAGES] Getting latest messages");
     db.getMessages(nbrOfMessages, function (err, messageList) {
-        if(err) return callback(err, null);
+        if (err) return callback(err, null);
         callback(null, messageList);
-    })
+    });
 };
-
 
 /*
  * Add message
@@ -20,9 +19,8 @@ exports.getLatest = function (nbrOfMessages, callback) {
 exports.add = function (req, res, next) {
     logger.log(classname, "Name: " + req.body.name + " with message: " + req.body.message);
     db.addMessage(req.body.name, req.body.message, function (err, data) {
-        console.log("DATA:" + data);
-        console.log("ERROR: " + err);
-        if(err) {
+
+        if (err) {
             return res.status(503).json({
                 error: true,
                 errorMessage: err,
