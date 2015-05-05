@@ -27,8 +27,8 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="col-md-12">
-            <h2>Nästa avgång: 7min</h2>
+        <div class="col-md-12" id="departure">
+
         </div>
         <div class="col-md-12" id="notification_message">
 
@@ -55,7 +55,6 @@
     console.log("Sending shit");
     var socket = io.connect('http://localhost:8080');
     socket.on('messageCenter', function (data) {
-        console.log("DATA Recieved: " + data);
         var notification = "";
         for (var obj in data) {
             var message = data[obj];
@@ -65,7 +64,6 @@
     });
     socket.on('todaysWOD', function(data) {
         data = JSON.parse(JSON.stringify(data).replace(/\\r\\n/g, "<br/>"));
-        console.log("Recieved todays WOD: " + data);
         var WOD = "";
         for (var obj in data) {
             var component = data[obj];
@@ -75,14 +73,26 @@
             comment = component["comment"];
             description = component["description"];
 
-            if(nbrOfReps) WOD += "<h3>" + name + " (" + nbrOfReps + ") </h3>";
+            if(nbrOfReps) WOD += "<h5>" + name + " (" + nbrOfReps + ")</h5>";
             else if(typeOfScheme) WOD += "<h3>" + name + " (" + typeOfScheme + ") </h3>";
             else if(name) WOD += "<h3>" + name + "</h3>";
             if(comment) WOD += comment;
             if(description) WOD += description;
-            console.log(WOD);
         }
         $('#WOD').html(WOD);
+    });
+    socket.on('departures', function(data) {
+        var timetable = "<h2>";
+        for (var obj in data) {
+            var component = data[obj];
+            if (timetable == "<h2>") timetable += "Nästa avgång: " + component["displayTime"];
+            else {
+                timetable += " (" + component["displayTime"] + ")";
+                break;
+            }
+        }
+        timetable += "</h2>";
+        $('#departure').html(timetable);
     });
 </script>
 </body>

@@ -9,16 +9,15 @@ var oClockAnalog = {
     iTimerUpdate: setInterval("oClockAnalog.fUpdate()", 1000),
 
     fAnimate: function () {
-        if (this.aSecond.length > 0) {
+        if (this.aSecond.length > 10) {
+            this.fRotate("analogsecond", this.aSecond[10]);
+            this.aSecond = this.aSecond.slice(11);
+        } else if (this.aSecond.length > 0) {
             this.fRotate("analogsecond", this.aSecond[0]);
             this.aSecond = this.aSecond.slice(1);
         }
     },
     fGetHour: function () {
-        var iHours = this.dtDate.getHours();
-        if (iHours > 11) {
-            iHours -= 12;
-        }
         return Math.round((this.dtDate.getHours() * 30) + (this.dtDate.getMinutes() / 2) + (this.dtDate.getSeconds() / 120));
     },
     fGetMinute: function () {

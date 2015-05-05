@@ -17,7 +17,7 @@ exports.getWOD = function (callback) {
         res.on('end', function () {
             var fbResponse = body.replace("\r\n", "<br/>");
             try {
-                data = JSON.parse(fbResponse)["RecordList"]["APIWod"]["Components"]["Component"];
+                var data = JSON.parse(fbResponse)["RecordList"]["APIWod"]["Components"]["Component"];
                 var WOD = [];
                 for (var component in data) {
                     WOD.push({

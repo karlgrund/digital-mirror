@@ -2,6 +2,7 @@ var messages = require('../models/messages');
 var socket = require('socket.io');
 var logger = require('../lib/logger');
 var wodify = require('../models/wodify');
+var timetable = require('../models/departure');
 var io;
 
 var classname = "SOCKETHANDLER";
@@ -26,10 +27,6 @@ module.exports.listen = function (app) {
         /*
          * Update client with todays WOD
          */
-        /*
-
-        NOT ACTIVATED! :)
-
         wodify.getWOD(function (err, WOD) {
             logger.log(classname, "Sending todays WOD to client");
             if (err) return err;
@@ -37,7 +34,17 @@ module.exports.listen = function (app) {
                 socket.emit('todaysWOD', WOD);
             }
         });
-        */
+
+        /*
+         * Update client with next departure time
+         */
+        timetable.getTimetable(function (err, departures) {
+            logger.log(classname, "Sending next departures from Midsommarkransen to client");
+            if (err) return err;
+            else {
+                socket.emit('departures', departures);
+            }
+        });
     });
 };
 
