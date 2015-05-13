@@ -1,22 +1,21 @@
 {
 	"wodify":{
 		"default": {
-			"frequency": "1440",
-			"start": "00:20"
+		  	"updateOnce": "00:20"
 		}
 	},
 	"SL": {
 		"Weekend_Nights": {
 			"day": "06",
 			"start": "00:00",
-			"stop": "08:00",
-			"frequency": "30"
+			"stop": "07:00",
+			"frequency": "20"
 		},
 		"Weekend_Days": {
 			"day": "06",
 			"start": "08:00",
-			"stop": "23:00",
-			"frequency": "1"
+			"stop": "27:00",
+			"frequency": "5"
 		},
 		"Weekdays_daytime": {
 			"day": "12345",
@@ -32,9 +31,9 @@
 		},
 		"Weekdays_evening": {
 			"day": "12345",
-			"start": "15:00",
-			"stop": "22:30",
-			"frequency": "1"
+			"start": "16:00",
+			"stop": "20:30",
+			"frequency": "10"
 		},
 		"Weekdays_Nights": {
 			"day": "12345",
@@ -43,8 +42,7 @@
 			"frequency": "20"
 		},
 		"default": {
-			"frequency": "15",
-			"start": "00:00"
+			"frequency": "20"
 		}
 	}
 }

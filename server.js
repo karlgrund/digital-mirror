@@ -8,12 +8,6 @@ var messages = require('./models/messages');
 var logger = require('./lib/logger')
 var timetable = require('./lib/timetable');
 
-io.listen(server);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(express.static('public'));
-
 process.argv.forEach(function(val) {
     switch(val) {
         case "--verbose":
@@ -28,12 +22,24 @@ process.argv.forEach(function(val) {
     }
 });
 
+io.listen(server);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.static('public'));
+
+timetable.addTimer("SL", function(err) {
+    if(err) console.log("ERROR: " + err);
+    console.log("Now we should send some data to clients");
+});
+
+timetable.addTimer("wodify", function(err) {
+    if(err) console.log("ERROR: " + err);
+    console.log("WODIFY");
+});
+
 app.post('/addMessage', messages.add, io.updateAllUsers);
 
 server.listen(8080, function() {
-    timetable.addTimer("SL", function(err) {
-        if(err) console.log("ERROR: " + err);
-        console.log("Now we should send some data to clients");
-    });
     console.log('[SERVER] Server listening on localhost:8080');
 });
