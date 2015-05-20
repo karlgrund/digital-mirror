@@ -1,6 +1,6 @@
-var db = require('../lib/database');
-var logger = require('../lib/logger');
-var classname = "MESSAGES";
+var db = require('../lib/database'),
+    logger = require('../lib/logger'),
+    classname = "MESSAGES";
 
 /*
  * Get messages
@@ -19,7 +19,6 @@ exports.getLatest = function (nbrOfMessages, callback) {
 exports.add = function (req, res, next) {
     logger.log(classname, "Name: " + req.body.name + " with message: " + req.body.message);
     db.addMessage(req.body.name, req.body.message, function (err, data) {
-
         if (err) {
             return res.status(503).json({
                 error: true,

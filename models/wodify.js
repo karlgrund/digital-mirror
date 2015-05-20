@@ -1,6 +1,6 @@
-var http = require('http');
-var logger = require('../lib/logger');
-var key = require('../controllers/keys');
+var http = require('http'),
+    logger = require('../lib/logger'),
+    key = require('../controllers/keys');
 
 var classname = "WODIFY";
 
@@ -19,7 +19,6 @@ exports.getWOD = function (callback) {
             try {
                 var data = JSON.parse(fbResponse)["RecordList"]["APIWod"]["Components"]["Component"];
                 var WOD = [];
-                console.log(JSON.stringify(data));
                 for (var component in data) {
                     if(data[component]["Name"] != null) {
                         WOD.push({
@@ -32,19 +31,16 @@ exports.getWOD = function (callback) {
                     }
                 }
             } catch (err) {
-                callback(err, null);
+                callback(err);
+                console.log("Got error: " + e.message);
             }
-            logger.log(classname, "WOD is fetched and returned");
             console.log(JSON.stringify(WOD));
             callback(null, WOD);
         })
 
         res.on('error', function (e) {
-            console.log("Got error: ", e);
-            callback(e.message, null);
+            callback(e.message);
+            console.log("Got error: " + e.message);
         });
-    }).on('error', function (e) {
-        callback(e.message, null);
-        console.log("Got error: " + e.message);
     });
 };

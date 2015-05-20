@@ -1,8 +1,9 @@
-var messages = require('../models/messages');
-var socket = require('socket.io');
-var logger = require('../lib/logger');
-var wodify = require('../models/wodify');
-var timetable = require('../models/departure');
+var messages = require('../models/messages'),
+    socket = require('socket.io'),
+    logger = require('../lib/logger'),
+    wodify = require('../models/wodify'),
+    timetable = require('../models/departure');
+
 var io;
 
 var classname = "SOCKETHANDLER";

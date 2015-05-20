@@ -1,6 +1,6 @@
-var http = require('http');
-var logger = require('../lib/logger');
-var key = require('../controllers/keys');
+var http = require('http'),
+    logger = require('../lib/logger'),
+    key = require('../controllers/keys');
 
 var classname = "DEPARTURE";
 
@@ -14,7 +14,6 @@ exports.getTimetable = function (callback) {
         });
 
         res.on('end', function () {
-            //var fbResponse = body.replace("\r\n", "<br/>");
             try {
                 var data = JSON.parse(body)["ResponseData"]["Metros"];
                 console.log("DATA: " + JSON.stringify(body));
@@ -27,19 +26,16 @@ exports.getTimetable = function (callback) {
                         });
                     }
                 }
-            } catch (err) {
-                console.log(err);
-                callback(err, null);
+            } catch (e) {
+                callback(e.message);
+                console.log("Got error: " + e.message);
             }
             logger.log(classname, "Timetable is fetched and returned: " + JSON.stringify(departure));
             callback(null, departure);
         })
         res.on('error', function (e) {
-            console.log("Got error: ", e);
-            callback(e.message, null);
+            callback(e.message);
+            console.log("Got error: " + e.message);
         });
-    }).on('error', function (e) {
-        console.log("Got error: " + e.message);
-        callback(e.message, null);
     });
 };
