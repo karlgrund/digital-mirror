@@ -19,19 +19,23 @@ exports.getWOD = function (callback) {
             try {
                 var data = JSON.parse(fbResponse)["RecordList"]["APIWod"]["Components"]["Component"];
                 var WOD = [];
+                console.log(JSON.stringify(data));
                 for (var component in data) {
-                    WOD.push({
-                        name: data[component]["Name"],
-                        comment: data[component]["Comments"],
-                        nbrOfReps: data[component]["RepScheme"],
-                        typeOfScheme: data[component]["PerformanceResultTypeName"],
-                        description: data[component]["Description"]
-                    });
+                    if(data[component]["Name"] != null) {
+                        WOD.push({
+                            name: data[component]["Name"],
+                            comment: data[component]["Comments"],
+                            nbrOfReps: data[component]["RepScheme"],
+                            typeOfScheme: data[component]["PerformanceResultTypeName"],
+                            description: data[component]["Description"]
+                        });
+                    }
                 }
             } catch (err) {
                 callback(err, null);
             }
             logger.log(classname, "WOD is fetched and returned");
+            console.log(JSON.stringify(WOD));
             callback(null, WOD);
         })
 
