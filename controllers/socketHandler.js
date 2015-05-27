@@ -1,14 +1,19 @@
+'use strict'
+
 var messages = require('../models/messages'),
     socket = require('socket.io'),
     logger = require('../lib/logger'),
     wodify = require('../models/wodify'),
-    timetable = require('../models/departure');
+    timetable = require('../models/departure'),
+    socketHandler = new Object();
 
 var io;
 
 var classname = "SOCKETHANDLER";
 
-module.exports.listen = function (app) {
+
+
+socketHandler.listen = function (app) {
     io = socket.listen(app);
 
     io.on('connection', function (socket) {
@@ -49,7 +54,7 @@ module.exports.listen = function (app) {
     });
 };
 
-exports.updateAllUsers = function (reciever) {
+socketHandler.updateAllUsers = function () {
     logger.log(classname, "Uppdating all sockets with latest messages");
     messages.getLatest(3, function (err, messageList) {
         console.log("[SOCKETHANDLER] Sending 3 latest messages");
@@ -60,3 +65,5 @@ exports.updateAllUsers = function (reciever) {
         }
     });
 };
+
+module.exports = socketHandler;
