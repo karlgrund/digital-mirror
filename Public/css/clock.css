@@ -4,7 +4,6 @@
 
 #clockanalog {
     background: #012345 url("../images/clock_new_slim.png") no-repeat 0 0;
-    float: left;
     height: 250px;
     margin: 0;
     overflow: hidden;

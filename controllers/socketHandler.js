@@ -5,11 +5,9 @@ var messages = require('../models/messages'),
     logger = require('../lib/logger'),
     wodify = require('../models/wodify'),
     timetable = require('../models/departure'),
-    socketHandler = new Object();
+    socketHandler = [];
 
 var io;
-
-var classname = "SOCKETHANDLER";
 
 
 
@@ -23,8 +21,8 @@ socketHandler.listen = function (app) {
          * Send 3 latest messages to client.
          */
         messages.getLatest(3, function (err, messageList) {
-            logger.log(classname, "Sending messages to new client");
-            if (err) return logger.logError(classname, "Retrieving from database with err: " + err);
+            logger.log("Sending messages to new client");
+            if (err) return logger.logError("Retrieving from database with err: " + err);
             else {
                 socket.emit('messageCenter', messageList);
             }
@@ -34,7 +32,7 @@ socketHandler.listen = function (app) {
          * Update client with todays WOD
          */
         wodify.getWOD(function (err, WOD) {
-            logger.log(classname, "Sending todays WOD to client");
+            logger.log("Sending todays WOD to client");
             if (err) return err;
             else {
                 socket.emit('todaysWOD', WOD);
@@ -45,7 +43,7 @@ socketHandler.listen = function (app) {
          * Update client with next departure time
          */
         timetable.getTimetable(function (err, departures) {
-            logger.log(classname, "Sending next departures from Midsommarkransen to client");
+            logger.log("Sending next departures from Midsommarkransen to client");
             if (err) return err;
             else {
                 socket.emit('departures', departures);
@@ -55,7 +53,7 @@ socketHandler.listen = function (app) {
 };
 
 socketHandler.updateAllUsers = function () {
-    logger.log(classname, "Uppdating all sockets with latest messages");
+    logger.log("Uppdating all sockets with latest messages");
     messages.getLatest(3, function (err, messageList) {
         console.log("[SOCKETHANDLER] Sending 3 latest messages");
         if (err) {

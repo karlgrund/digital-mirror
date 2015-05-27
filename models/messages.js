@@ -1,15 +1,15 @@
-var db = require('../lib/database'),
-    logger = require('../lib/logger'),
-    classname = "MESSAGES";
+var mongodb = require('../lib/db'),
+    logger = require('../lib/logger');
 
 /*
  * Get messages
  */
 exports.getLatest = function (nbrOfMessages, callback) {
-    console.log("[MESSAGES] Getting latest messages");
-    db.getMessages(nbrOfMessages, function (err, messageList) {
+
+    mongodb.messages.find({}).limit(3).sort({_id:-1}).toArray(function(err, doc) {
+        logger.log("Recieved messages from Mongo DB");
         if (err) return callback(err, null);
-        callback(null, messageList);
+        callback(null, doc);
     });
 };
 
@@ -17,19 +17,19 @@ exports.getLatest = function (nbrOfMessages, callback) {
  * Add message
  */
 exports.add = function (req, res, next) {
-    logger.log(classname, "Name: " + req.body.name + " with message: " + req.body.message);
-    db.addMessage(req.body.name, req.body.message, function (err, data) {
+    logger.log("Name: " + req.body.name + " with message: " + req.body.message);
+    mongodb.messages.insert({ Name: req.body.name, Message: req.body.message }, function(err, result) {
         if (err) {
             return res.status(503).json({
                 error: true,
                 errorMessage: err,
-                data: data
+                data: result
             });
         } else {
             res.status(200).json({
                 error: false,
                 errorMessage: null,
-                data: data
+                data: result
             });
         }
         next();

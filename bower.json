@@ -1,0 +1,20 @@
+{
+  "name": "digital-mirror",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Karlgrund/digital-mirror",
+  "authors": [
+    "Karlgrund <jkarlgrund@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "jquery": "~2.1.4"
+  }
+}

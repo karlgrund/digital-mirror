@@ -1,3 +1,15 @@
+var bScriptLoaded = false;
+var bDOMLoaded = false;
+var bClocksInitialised = false;
+
+function ClockInit() {
+    if ((bClocksInitialised != true) && (bDOMLoaded == true) && (bScriptLoaded == true)) {
+        bClocksInitialised = true;
+        oClockAnalog.fInit();
+        oClockDigital.fInit();
+    }
+}
+
 var oClockAnalog = {
     aSecond: [],
     dtDate: new Date(),

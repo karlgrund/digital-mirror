@@ -2,95 +2,33 @@
 <html>
 <head>
     <title>Welcome to this digital mirror</title>
-    <link href='css/bootstrap.css' rel='stylesheet'>
     <link href="css/clock.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
 
     <script src="vendor/jquery/dist/jquery.min.js"></script>
-    <script src="js/css_clocks_1.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/css_clocks_1.js"></script>
+    <script src="js/socketHandler.js"></script>
 </head>
 
 <body>
-<div class="container-fluid">
+    <aside id="clockanalog">
+        <img src="images/analogseconds.png" id="analogsecond"
+             alt="Clock second-hand"/>
+        <img src="images/analogminutes.png"
+             id="analogminute" alt="Clock minute-hand"/>
+        <img src="images/analoghours.png" id="analoghour"
+             alt="Clock hour-hand"/>
+    </aside>
 
-    <div class="col-md-3" id="cssclock">
-        <div id="clockanalog">
-            <img src="images/analogseconds.png" id="analogsecond"
-                 alt="Clock second-hand"/>
-            <img src="images/analogminutes.png"
-                 id="analogminute" alt="Clock minute-hand"/>
-            <img src="images/analoghours.png" id="analoghour"
-                 alt="Clock hour-hand"/>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-12" id="departure">
+    <header>
+        <h1 id="subway">Nästa avgång: ? min (?? min)</h1>
+        <ul id="notification_message">
 
-        </div>
-        <div class="col-md-12" id="notification_message">
+        </ul>
+    </header>
 
-        </div>
-    </div>
-    <div class="col-md-3" id="WOD">
-    </div>
-</div>
+    <aside id="WOD"></aside>
 
-<script type="text/javascript">
-    var bScriptLoaded = false;
-    var bDOMLoaded = false;
-    var bClocksInitialised = false;
-
-    function ClockInit() {
-        if ((bClocksInitialised != true) && (bDOMLoaded == true) && (bScriptLoaded == true)) {
-            bClocksInitialised = true;
-            oClockAnalog.fInit();
-            oClockDigital.fInit();
-        }
-    }
-</script>
-<script type="text/javascript">
-    console.log("Sending shit");
-    var socket = io.connect('http://localhost:8080');
-    socket.on('messageCenter', function (data) {
-        var notification = "";
-        for (var obj in data) {
-            var message = data[obj];
-            notification += message.message + "<br>";
-        }
-        $('#notification_message').html(notification);
-    });
-    socket.on('todaysWOD', function(data) {
-        data = JSON.parse(JSON.stringify(data).replace(/\\r\\n/g, "<br/>"));
-        var WOD = "";
-        for (var obj in data) {
-            var component = data[obj];
-            name = component["name"];
-            nbrOfReps = component["nbrOfReps"];
-            typeOfScheme = component["typeOfScheme"];
-            comment = component["comment"];
-            description = component["description"];
-
-            if(nbrOfReps) WOD += "<h5>" + name + " (" + nbrOfReps + ")</h5>";
-            else if(typeOfScheme) WOD += "<h3>" + name + " (" + typeOfScheme + ") </h3>";
-            else if(name) WOD += "<h3>" + name + "</h3>";
-            if(comment) WOD += comment;
-            if(description) WOD += description;
-        }
-        $('#WOD').html(WOD);
-    });
-    socket.on('departures', function(data) {
-        var timetable = "<h2>";
-        for (var obj in data) {
-            var component = data[obj];
-            if (timetable == "<h2>") timetable += "Nästa avgång: " + component["displayTime"];
-            else {
-                timetable += " (" + component["displayTime"] + ")";
-                break;
-            }
-        }
-        timetable += "</h2>";
-        $('#departure').html(timetable);
-    });
-</script>
 </body>
 </html>

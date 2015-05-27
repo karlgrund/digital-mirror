@@ -6,8 +6,10 @@ var express = require('express'),
 module.exports = function(app, server) {
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());
-    app.post('/addMessage', messages.add, io.updateAllUsers);
+    app.use(express.static('./public'));
 
+
+    app.post('/addMessage', messages.add, io.updateAllUsers);
 
     app.post('/addGrosseryItem', function(req, res) {
         console.log(req.body);
@@ -27,6 +29,6 @@ module.exports = function(app, server) {
         });
         res.end();
     });
-    app.use(express.static('./public'));
+
     io.listen(server);
 }
