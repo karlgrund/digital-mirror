@@ -1,7 +1,7 @@
 /**
  * Created by Johan on 15-05-27.
  */
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect();
 socket.on('messageCenter', function (data) {
     for (var obj in data) {
         var message = data[obj].Message;
