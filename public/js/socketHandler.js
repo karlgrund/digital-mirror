@@ -12,7 +12,7 @@ socket.on('messageCenter', function (data) {
 
 socket.on('todaysWOD', function(data) {
     console.log("[WOD] Recieved new data. " + new Date().toDateString());
-    $('#WOD').text(data);
+    $('#WOD').html(data);
 });
 
 socket.on('departures', function(data) {
@@ -27,5 +27,6 @@ socket.on('departures', function(data) {
 });
 
 socket.on('reload', function() {
+    console.log("[RELOAD] Page is reloaded :)");
     location.reload();
 })
