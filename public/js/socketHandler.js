@@ -3,6 +3,7 @@
  */
 var socket = io.connect();
 socket.on('messageCenter', function (data) {
+    console.log("[Message Center] Recieved new data. " + new Date().getTime());
     for (var obj in data) {
         var message = data[obj].Message;
         $('#notification_message').append($('<li>', { html: message}));
@@ -10,7 +11,8 @@ socket.on('messageCenter', function (data) {
 });
 
 socket.on('todaysWOD', function(data) {
-    $('#WOD').append(data);
+    console.log("[WOD] Recieved new data. " + new Date().getTime());
+    $('#WOD').text(data);
 });
 
 socket.on('departures', function(data) {
@@ -20,5 +22,6 @@ socket.on('departures', function(data) {
         else if(i===0) timetable += data[i].displayTime;
         else if(i===2) timetable += " (" + data[i].displayTime + ")";
     }
+    console.log("[Departures] Recieved new data. " + new Date().getTime());
     $('#subway').text(timetable);
 });
