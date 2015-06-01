@@ -14,6 +14,11 @@ var io;
 socketHandler.listen = function (app) {
     io = socket.listen(app);
 
+    setTimeout(function() {
+        io.sockets.emit('reload');
+    }, 5000);
+
+
     io.on('connection', function (socket) {
         console.log("[SOCKETHANDLER] Got a new client");
 

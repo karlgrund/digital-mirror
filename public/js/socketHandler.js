@@ -25,3 +25,7 @@ socket.on('departures', function(data) {
     console.log("[Departures] Recieved new data. " + new Date().getTime());
     $('#subway').text(timetable);
 });
+
+socket.on('reload', function() {
+    location.reload();
+})
