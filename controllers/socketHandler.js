@@ -15,6 +15,10 @@ socketHandler.listen = function (app) {
     io = socket.listen(app);
 
     setTimeout(function() {
+        socketHandler.sendDeparture()
+    }, 60000);
+
+    setTimeout(function() {
         io.sockets.emit('reload');
     }, 5000);
 
@@ -53,9 +57,6 @@ socketHandler.listen = function (app) {
             else {
                 socket.emit('departures', departures);
             }
-            setTimeout(function() {
-                socketHandler.sendDeparture()
-            }, 60000);
         });
     });
 };

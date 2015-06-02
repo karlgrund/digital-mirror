@@ -3,6 +3,7 @@
  */
 var socket = io.connect();
 socket.on('messageCenter', function (data) {
+    $('#notification_message').empty();
     console.log("[Message Center] Recieved new data. " + new Date().toDateString());
     for (var obj in data) {
         var message = data[obj].Message;
