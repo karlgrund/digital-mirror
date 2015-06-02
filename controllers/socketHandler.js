@@ -53,6 +53,9 @@ socketHandler.listen = function (app) {
             else {
                 socket.emit('departures', departures);
             }
+            setTimeout(function() {
+                socketHandler.sendDeparture()
+            }, 60000);
         });
     });
 };
@@ -68,5 +71,18 @@ socketHandler.updateAllUsers = function () {
         }
     });
 };
+
+socketHandler.sendDeparture = function() {
+    timetable.getTimetable(function (err, departures) {
+        logger.log("Sending next departures from Midsommarkransen to client");
+        if (err) return err;
+        else {
+            io.sockets.emit('departures', departures);
+        }
+        setTimeout(function() {
+            socketHandler.sendDeparture()
+        }, 60000);
+    });
+}
 
 module.exports = socketHandler;
