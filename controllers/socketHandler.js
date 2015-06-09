@@ -4,7 +4,7 @@ var messages = require('../models/messages'),
     socket = require('socket.io'),
     logger = require('../lib/logger'),
     wodify = require('../models/wodify'),
-    timetable = require('../models/departure'),
+    subwayDeparture = require('../models/departure'),
     socketHandler = [];
 
 var io;
@@ -13,10 +13,15 @@ var io;
 
 socketHandler.listen = function (app) {
     io = socket.listen(app);
-
+    var now = new Date();
+    var delay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 30, 0, 0) - now;
     setTimeout(function() {
         socketHandler.sendDeparture()
     }, 60000);
+
+    setTimeout(function() {
+        socketHandler.sendWodify();
+    }, (delay > 0) ? delay : delay + 86400000);
 
     setTimeout(function() {
         io.sockets.emit('reload');
@@ -42,16 +47,13 @@ socketHandler.listen = function (app) {
          */
         wodify.getWOD(function (err, WOD) {
             logger.log("Sending todays WOD to client");
-            if (err) return err;
-            else {
-                socket.emit('todaysWOD', WOD);
-            }
+            socket.emit('todaysWOD', WOD);
         });
 
         /*
          * Update client with next departure time
          */
-        timetable.getTimetable(function (err, departures) {
+        subwayDeparture.getTimetable(function (err, departures) {
             logger.log("Sending next departures from Midsommarkransen to client");
             if (err) return err;
             else {
@@ -74,7 +76,7 @@ socketHandler.updateAllUsers = function () {
 };
 
 socketHandler.sendDeparture = function() {
-    timetable.getTimetable(function (err, departures) {
+    subwayDeparture.getTimetable(function (err, departures) {
         logger.log("Sending next departures from Midsommarkransen to client");
         if (err) return err;
         else {
@@ -83,6 +85,27 @@ socketHandler.sendDeparture = function() {
         setTimeout(function() {
             socketHandler.sendDeparture()
         }, 60000);
+    });
+};
+
+socketHandler.sendWodify = function() {
+    wodify.getWOD(function (err, WOD) {
+        io.sockets.emit('todaysWOD', WOD);
+        var delay;
+        if(err) {
+            delay = 1800000;
+        } else {
+            // Calc time until 00:30.
+            var now = new Date();
+            delay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 30, 0, 0) - now;
+            if (delay < 0) {
+                delay += 86400000; // it's after 10am, try 10am tomorrow.
+            }
+        }
+        console.log("Next time is in: " + delay);
+        setTimeout(function() {
+            socketHandler.sendWodify();
+        }, delay);
     });
 }
 

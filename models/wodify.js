@@ -16,17 +16,15 @@ exports.getWOD = function (callback) {
 
         res.on('end', function () {
             console.log(body);
-            var fbResponse = body.replace("\r\n", "<br/>");
-            var data = JSON.parse(fbResponse)["RecordList"]["APIWod"]["FormattedWOD"];
-            try {
-
-            } catch (err) {
-                callback(err);
-                logger.logError("Got error: " + e.message);
+            if(JSON.parse(body).hasOwnProperty('APIError')) {
+                callback(JSON.parse(body)["APIError"]["ResponseCode"], JSON.parse(body)["APIError"]["ErrorMessage"])
+            } else {
+                var fbResponse = body.replace("\r\n", "<br/>");
+                var data = JSON.parse(fbResponse)["RecordList"]["APIWod"]["FormattedWOD"];
+                logger.log("Workout fetched");
+                callback(null, data);
             }
-            logger.log("Workout fetched");
-            callback(null, data);
-        })
+        });
 
         res.on('error', function (e) {
             callback(e.message);
