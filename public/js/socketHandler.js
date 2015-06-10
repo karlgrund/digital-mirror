@@ -21,7 +21,7 @@ socket.on('departures', function(data) {
     for(var i=0; i<data.length; i++) {
         if(data[0] == "Nu") timetable += "0 min";
         else if(i===0) timetable += data[i].displayTime;
-        else if(i===2) timetable += " (" + data[i].displayTime + ")";
+        else if(i===1) timetable += " (" + data[i].displayTime + ")";
     }
     console.log("[Departures] Recieved new data. " + new Date().toDateString());
     $('#subway').text(timetable);
