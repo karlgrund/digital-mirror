@@ -15,9 +15,11 @@ exports.getTimetable = function (callback) {
             try {
                 var data = JSON.parse(body)["ResponseData"]["Metros"];
 
+                console.log(data);
+
                 var departure = [];
                 for (var component in data) {
-                    if(data[component]["Destination"] == "Fruängen") {
+                    if(data[component]["Destination"] == "Mörby centrum") {
                         logger.log("Received data for subway: " + data[component]["DisplayTime"]);
                         departure.push({
                             displayTime: data[component]["DisplayTime"]
