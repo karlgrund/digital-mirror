@@ -1,39 +1,124 @@
-
-html {
-    background: #194824;
-    /*
-    .color-primary-0 { color: #2B803E }
-.color-primary-1 { color: #3AB956 }
-.color-primary-2 { color: #339D4A }
-.color-primary-3 { color: #226431 }
-.color-primary-4 { color: #194824 }
-    */
-}
+* {margin:0;padding:0;}
 
 body {
-    color: #3ab956;
-    font-size: 16px;
-    margin: 0 auto;
+    /*
+    .color-primary-0 { color: #2B803E }
+    .color-primary-1 { color: #3AB956 }
+    .color-primary-2 { color: #339D4A }
+    .color-primary-3 { color: #226431 }
+    .color-primary-4 { color: #194824 }
+    */
+    background:#194824;
+    color: #339D4A;
+}
+
+/* Header */
+header {
+    background-color: #202020;
     width: 80%;
     min-width: 500px;
     max-width: 700px;
+    padding: 10px 20px 10px 20px;
+    margin: 10px auto 20px;
+    text-align: center;
 }
 
-form {
-    background: #202020;
-    margin-bottom: 20px;
-    padding: 20px;
+header h1 {
+    text-decoration: underline;
+    font-weight: normal;
+    margin-bottom: 10px;
 }
 
+nav ul {
+    width: auto;
+    padding: 0;
+    margin: 5px 0 5px 0;
+}
+nav li {
+    display: inline-block;
+    width: 100px;
+    padding: 5px 15px 5px 15px;
+    margin: 0 15px 0 15px;
+    border: 1px solid #339D4A;
+    cursor: pointer;
+}
+
+nav li:hover {
+    background-color: #194824;
+}
+
+nav li a {
+    color: #339D4A;
+    text-decoration: none;
+    text-transform: uppercase;
+    font: 14px "proxima-nova-1","proxima-nova-2";
+}
 /* Form */
 
-input {
+.input-form {
+    background: #202020;
+    width: 80%;
+    min-width: 500px;
+    max-width: 700px;
+    padding: 20px;
+    margin: 0 auto 20px auto;
+    border-radius: 10px;
+}
+
+.input-form input {
+    display: block;
     border: 1px solid #ccc;
     box-sizing: border-box;
-    font-family: Helvetica, Arial, sans-serif;
     font-size: 16px;
-    margin: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     padding: 10px;
     width: 100%;
+}
+
+.input-form h2 {
+    margin: 0 0 15px 0;
+    font-weight: normal;
+}
+
+.input-form ul {
+    list-style-type: none;
+    padding: 0 0 10px 10px;
+}
+
+.formBtn {
+    border:0;
+    border-radius: 4px;
+    background-color:#194824;
+
+    display:inline-block;
+    color:#3ab956;
+    font-size: 100%;
+    width: 100px;
+    padding: 6px 30px;
+    cursor: pointer;
+}
+
+.formBtn:hover {
+    background-color: #3AB956;
+    color:#194824;
+}
+
+a[data-item] {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+
+.grossery-list li {
+    margin: 2px;
+}
+
+#add-grossery {
+    display: none;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
 }
