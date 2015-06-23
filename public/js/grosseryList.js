@@ -51,8 +51,7 @@ $('.grossery-list').on('click', 'a[data-item]', function(event) {
             attr.parents('li').remove();
             $("#open-add-grossery").trigger('reset');
         });
-
-})
+});
 
 function appendToGrosseryList(items) {
     var list = [];

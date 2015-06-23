@@ -18,7 +18,7 @@ process.argv.forEach(function(val) {
 
 
 require('./config/express')(app, server);
-require('./controllers/timetable')();
+//require('./controllers/timetable')();
 
 
 //require('./lib/db').init('127.0.0.1', 27017, function(err) {
