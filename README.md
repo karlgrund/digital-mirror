@@ -7,4 +7,3 @@ This is repository is used to display useful information to my personal mirror. 
 To install you need to perform the following steps.
 
 0. Write steps to follow here! Will be added later :)
-1.
