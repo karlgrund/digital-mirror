@@ -1,7 +1,7 @@
 {
 	"wodify":{
 		"default": {
-		  	"updateOnce": "00:20"
+			"updateOnce": "00:20"
 		}
 	},
 	"SL": {

@@ -1,3 +1,5 @@
-.idea
-node_modules
-API_keys.json
+/.idea
+/node_modules
+/bower.json
+/.bowerrc
+/API_keys.json
