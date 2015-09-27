@@ -1,9 +1,13 @@
 # Digital mirror
 
-This is repository is used to display useful information to my personal mirror. It is not generic and will not work for you unless you make modifications to certain files.
+This is repository is used to display useful information to my personal mirror. It is not generic and you will need certain API_keys to make it work (SL & Wodify).
 
-## Local Setup
+## TODO-List
 
-To install you need to perform the following steps.
-
-0. Write steps to follow here! Will be added later :)
+* Add tests for code using *supertest*- and *mocha*-modules.
+* Refactor DB-connection and hide connection-parts.
+* Create common interface for API-communication.
+* Implementation of grocery list (front- and backend).
+* Update solution for implementation of new github release (continuous deployment).
+* Rebuild messageNotification.html.
+* General code cleanup (especially in models).

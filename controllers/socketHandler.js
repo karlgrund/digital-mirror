@@ -9,12 +9,12 @@ var messages = require('../models/messages'),
 
 var io;
 
-
-
 socketHandler.listen = function (app) {
     io = socket.listen(app);
+
     var now = new Date();
     var delay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 30, 0, 0) - now;
+
     setTimeout(function() {
         socketHandler.sendDeparture()
     }, 60000);
@@ -31,9 +31,6 @@ socketHandler.listen = function (app) {
     io.on('connection', function (socket) {
         console.log("[SOCKETHANDLER] Got a new client");
 
-        /*
-         * Send 3 latest messages to client.
-         */
         messages.getLatest(3, function (err, messageList) {
             logger.log("Sending messages to new client");
             if (err) return logger.logError("Retrieving from database with err: " + err);
@@ -42,17 +39,11 @@ socketHandler.listen = function (app) {
             }
         });
 
-        /*
-         * Update client with todays WOD
-         */
         wodify.getWOD(function (err, WOD) {
             logger.log("Sending todays WOD to client");
             socket.emit('todaysWOD', WOD);
         });
 
-        /*
-         * Update client with next departure time
-         */
         subwayDeparture.getTimetable(function (err, departures) {
             logger.log("Sending next departures from Midsommarkransen to client");
             if (err) return err;

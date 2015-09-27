@@ -1,9 +1,6 @@
 var mongodb = require('../lib/db'),
     logger = require('../lib/logger');
 
-/*
- * Get messages
- */
 exports.getLatest = function (nbrOfMessages, callback) {
 
     mongodb.messages.find({}).limit(3).sort({_id:-1}).toArray(function(err, doc) {
@@ -13,9 +10,6 @@ exports.getLatest = function (nbrOfMessages, callback) {
     });
 };
 
-/*
- * Add message
- */
 exports.add = function (req, res, next) {
     logger.log("Name: " + req.body.name + " with message: " + req.body.message);
     mongodb.messages.insert({ Name: req.body.name, Message: req.body.message }, function(err, result) {

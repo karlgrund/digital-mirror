@@ -4,7 +4,7 @@ var http = require('http'),
 
 exports.getTimetable = function (callback) {
     var body = '';
-    date = new Date().toISOString().slice(0, 10);
+
     logger.log("Asking API for next departure: " + key.getSLAPI());
     http.get("http://api.sl.se/api2/realtimedepartures.json?key=" + key.getSLAPI() + "&siteid=9264&timewindow=60", function (res) {
         res.on('data', function (chunk) {
@@ -14,8 +14,6 @@ exports.getTimetable = function (callback) {
         res.on('end', function () {
             try {
                 var data = JSON.parse(body)["ResponseData"]["Metros"];
-
-                console.log(data);
 
                 var departure = [];
                 for (var component in data) {
@@ -32,7 +30,7 @@ exports.getTimetable = function (callback) {
             }
             logger.log("Timetable is fetched and returned: " + JSON.stringify(departure));
             callback(null, departure);
-        })
+        });
         res.on('error', function (e) {
             callback(e.message);
             logger.logError("Got error: " + e.message);

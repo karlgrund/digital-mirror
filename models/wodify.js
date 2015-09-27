@@ -15,7 +15,7 @@ exports.getWOD = function (callback) {
         });
 
         res.on('end', function () {
-            console.log(body);
+            logger.log(body);
             if(JSON.parse(body).hasOwnProperty('APIError')) {
                 callback(JSON.parse(body)["APIError"]["ResponseCode"], JSON.parse(body)["APIError"]["ErrorMessage"])
             } else {
