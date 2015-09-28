@@ -1,6 +1,5 @@
 var oClockAnalog = {
     dtDate: new Date(),
-    iTimerAnimate: setInterval("oClockAnalog.fAnimate()", 20),
     iTimerUpdate: setInterval("oClockAnalog.fUpdate()", 1000),
 
     fGetHour: function () {
